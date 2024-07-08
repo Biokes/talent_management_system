@@ -5,23 +5,27 @@ from django.db.models import PROTECT
 
 # Create your models here.
 class User(AbstractUser):
-    first_name = models.CharField(max_length=255)
-    last_name = models.CharField(max_length=255)
     email = models.EmailField(unique=True)
     password = models.CharField(max_length=15)
-    phone_number = models.CharField(max_length=15)
+    phone_number = models.CharField(max_length=250)
     ROLE_CHOICES = [('TALENT', 'Talent'), ('EMPLOYER', 'Employer')]
+    date_registered = models.DateTimeField(auto_now_add=True)
     role = models.CharField(max_length=50, choices=ROLE_CHOICES, default='EMPLOYER')
 class Employer(User):
-    user= models.OneToOneField(User,on_delete=PROTECT)
-    date_joined = models.DateTimeField(auto_now_add=True)
+    related_user_id= models.OneToOneField(User, on_delete=PROTECT, related_name="employer_user")
+
+class Manager(User):
+    user_id = models.OneToOneField(User, on_delete=PROTECT, related_name="manager_user")
+    department_managed = models.CharField(max_length=255)
 
 class Talent(User):
-    user= models.OneToOneField(User,on_delete=PROTECT)
+    user_id= models.OneToOneField(User, on_delete=PROTECT,related_name="talent_user")
 
 
 class Skill(models.Model):
-    talent_id = models.OneToOneField(Talent, on_delete=models.CASCADE, null=True, blank=True)
+    talent_id = models.OneToOneField(Talent, on_delete=models.CASCADE, related_name="skill_user")
     skill_name = models.CharField(max_length=255)
     PROFICIENCY_LEVEL = [('B', 'BEGINNER'), ('I', 'INTERMEDIATE'), ('A', 'ADVANCED'), ('P', 'PROFESSIONAL')]
     proficiency = models.CharField(max_length=15, choices=PROFICIENCY_LEVEL, default='B')
+
+

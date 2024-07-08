@@ -6,4 +6,4 @@ from talent_management_app.models import Talent
 class RegisterTalentSerializer(serializers.Serializer):
     class Meta:
         model = Talent
-        fields = ['first_name', 'last_name', 'email','password','phone_number','role','skill_name','proficiency']
+        fields = ['email','password','phone_number','skill_name','proficiency']
