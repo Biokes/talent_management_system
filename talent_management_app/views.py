@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
 
+from talent_management_app.serializers import RegisterTalentSerializer
+
 
 # Create your views here.
 # def promote_employee(request):
@@ -11,4 +13,4 @@ from rest_framework.views import APIView
 class RegisterTalent(APIView):
     @staticmethod
     def post(request):
-        serializer= RegisterTalentSerializer
+        serializer = RegisterTalentSerializer
