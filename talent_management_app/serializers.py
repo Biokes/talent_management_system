@@ -7,3 +7,8 @@ class RegisterTalentSerializer(serializers.Serializer):
     class Meta:
         model = Talent
         fields = ['email','password','phone_number','skill_name','proficiency']
+
+class ViewTalentProfileSerializer(serializers.Serializer):
+    class Meta:
+        model = Talent
+        fields = ['email']

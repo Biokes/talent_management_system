@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'djoser',
     'rest_framework',
     'talent_management_app',
-    # 'djangorestframework_simplejwt'
 ]
 
 MIDDLEWARE = [

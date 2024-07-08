@@ -1,11 +1,13 @@
+from django.db import transaction
 from django.shortcuts import render
 from django.views.generic import CreateView
+from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 from rest_framework.status import HTTP_400_BAD_REQUEST, HTTP_200_OK
 from rest_framework.views import APIView
 
 from talent_management_app.models import Talent, User, Skill
-from talent_management_app.serializers import RegisterTalentSerializer
+from talent_management_app.serializers import RegisterTalentSerializer, ViewTalentProfileSerializer
 
 
 # Create your views here.
@@ -15,6 +17,7 @@ from talent_management_app.serializers import RegisterTalentSerializer
 # def set_goals_for_employee(request):
 class RegisterTalent(APIView):
     @staticmethod
+    @transaction.atomic
     def post(request):
         serializer = RegisterTalentSerializer()
         if not serializer.is_valid:
@@ -28,5 +31,17 @@ class RegisterTalent(APIView):
         talent = Talent.objects.create(user=user)
         Skill.objects.create(skill_name=serializer.data['skil_name'], proficiency=serializer.data['proficiency'],
                              talent_id=talent.pk)
-        return Response(data={'messages': 'Registered successfully', 'success': True}
-                        , status=HTTP_200_OK)
+        return Response({'messages': 'Registered successfully', 'success': True},status=HTTP_200_OK)
+
+    @staticmethod
+    def get(request):
+        serializer= ViewTalentProfileSerializer()
+        if not serializer.is_valid:
+            return Response({'message': 'INVALID DETAILS PROVIDED', 'success': False},
+                            status=HTTP_400_BAD_REQUEST)
+        talent = get_object_or_404(pk=serializer.data['email'])
+        phone_number = talent.phone_number
+        email= talent.email
+        skill = Skill.objects.filter(pk=User.objects.filter(email)).get().proficiency
+        return Response({"skill_level":f"{skill}","talent":f"{phone_number}",})
+
