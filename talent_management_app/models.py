@@ -23,22 +23,13 @@ class Manager(User):
 
 
 class Talent(User):
-    user_id= models.OneToOneField(User, on_delete=PROTECT,related_name="talent_user")
+    user_id = models.OneToOneField(User, on_delete=PROTECT, related_name="talent_user")
     position = models.CharField(max_length=30)
-    LEVEL = [('ONE', '1'), ('TWO', '2'), ('THREE', '3'), ('FOUR', '4'),('FIVE', '5')]
+    LEVEL = [('ONE', '1'), ('TWO', '2'), ('THREE', '3'), ('FOUR', '4'), ('FIVE', '5')]
+
 
 class Skill(models.Model):
     talent_id = models.OneToOneField(Talent, on_delete=models.CASCADE, related_name="skill_user")
     skill_name = models.CharField(max_length=255)
     PROFICIENCY_LEVEL = [('B', 'BEGINNER'), ('I', 'INTERMEDIATE'), ('A', 'ADVANCED'), ('P', 'PROFESSIONAL')]
     proficiency = models.CharField(max_length=15, choices=PROFICIENCY_LEVEL, default='B')
-
-
-class Training(models.Model):
-    id = models.AutoField(primary_key=True)
-    title = models.CharField(max_length=255)
-    description = models.TextField()
-    start_date = models.DateField()
-    end_date = models.DateField()
-    location = models.CharField(max_length=255)
-    manager_email = models.EmailField(default="no email")
