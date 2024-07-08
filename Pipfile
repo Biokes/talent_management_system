@@ -5,7 +5,11 @@ name = "pypi"
 
 [packages]
 djangorestframework = "*"
+<<<<<<< HEAD
 djoser = "*"
+=======
+django = "*"
+>>>>>>> goals
 
 [dev-packages]
 
