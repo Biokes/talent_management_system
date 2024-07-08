@@ -42,12 +42,12 @@ INSTALLED_APPS = [
     'djoser',
     'rest_framework',
     'talent_management_app',
-<<<<<<< HEAD
     'djoser',
+<<<<<<< HEAD
+=======
     'rest_framework_simplejwt',
     # 'djangorestframework_simplejwt'
-=======
->>>>>>> Abbey
+>>>>>>> 0c047e3c867b577443b555652d07bd642b440e7d
 ]
 
 MIDDLEWARE = [

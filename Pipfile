@@ -6,10 +6,6 @@ name = "pypi"
 [packages]
 djangorestframework = "*"
 djoser = "*"
-<<<<<<< HEAD
-djangorestframework-simplejwt = "*"
-=======
->>>>>>> Abbey
 
 [dev-packages]
 

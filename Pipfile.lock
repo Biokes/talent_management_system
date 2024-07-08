@@ -1,11 +1,7 @@
 {
     "_meta": {
         "hash": {
-<<<<<<< HEAD
-            "sha256": "7d9a0de4977b3b6f95d7957f90f3c01dc5e572e5f65303f9ace5172813b5c7b2"
-=======
             "sha256": "3e9f9f94aecc8e251b8163d25e188a73bd93513a9d39a9071462ab3e902b1040"
->>>>>>> Abbey
         },
         "pipfile-spec": 6,
         "requires": {
@@ -261,20 +257,10 @@
             "version": "==3.15.2"
         },
         "djangorestframework-simplejwt": {
-<<<<<<< HEAD
-            "extras": [
-                "crypto"
-            ],
-=======
->>>>>>> Abbey
             "hashes": [
                 "sha256:381bc966aa46913905629d472cd72ad45faa265509764e20ffd440164c88d220",
                 "sha256:6c4bd37537440bc439564ebf7d6085e74c5411485197073f508ebdfa34bc9fae"
             ],
-<<<<<<< HEAD
-            "index": "pypi",
-=======
->>>>>>> Abbey
             "markers": "python_version >= '3.8'",
             "version": "==5.3.1"
         },

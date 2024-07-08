@@ -1,20 +1,17 @@
-from django.db import transaction
 from django.shortcuts import render
+from rest_framework import status
+from rest_framework.generics import CreateAPIView, get_object_or_404
+from rest_framework.response import Response
 from django.views.generic import CreateView
-from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 from rest_framework.status import HTTP_400_BAD_REQUEST, HTTP_200_OK
 from rest_framework.views import APIView
+from rest_framework.viewsets import ModelViewSet
 
-<<<<<<< HEAD
-=======
+from talent_management_app.models import Training
+
 from talent_management_app.models import Talent, User, Skill
-<<<<<<< HEAD
->>>>>>> Abbey
 from talent_management_app.serializers import RegisterTalentSerializer
-=======
-from talent_management_app.serializers import RegisterTalentSerializer, ViewTalentProfileSerializer
->>>>>>> Abbey
 
 
 # Create your views here.
@@ -24,11 +21,25 @@ from talent_management_app.serializers import RegisterTalentSerializer, ViewTale
 # def set_goals_for_employee(request):
 class RegisterTalent(APIView):
     @staticmethod
-    @transaction.atomic
     def post(request):
-<<<<<<< HEAD
         serializer = RegisterTalentSerializer
-=======
+
+
+class ScheduleTraining(CreateAPIView):
+    queryset = Training.objects.all()
+    serializer_class = CreateTrainingSerializer
+
+
+class ScheduleTrainingList(APIView):
+    def get(self, request):
+        trainings = Training.objects.all()
+        return Response(data=trainings, status=status.HTTP_200_OK)
+
+
+class ViewTrainingForTrainner(APIView):
+    def get(self, request):
+        training = get_object_or_404(Training, training_id=request.data['training_id'])
+        return Response(data=training, status=status.HTTP_200_OK)
         serializer = RegisterTalentSerializer()
         if not serializer.is_valid:
             return Response(data={'message': 'INVALID DETAILS PROVIDED', 'success': False},
@@ -41,23 +52,5 @@ class RegisterTalent(APIView):
         talent = Talent.objects.create(user=user)
         Skill.objects.create(skill_name=serializer.data['skil_name'], proficiency=serializer.data['proficiency'],
                              talent_id=talent.pk)
-<<<<<<< HEAD
         return Response(data={'messages': 'Registered successfully', 'success': True}
                         , status=HTTP_200_OK)
->>>>>>> Abbey
-=======
-        return Response({'messages': 'Registered successfully', 'success': True},status=HTTP_200_OK)
-
-    @staticmethod
-    def get(request):
-        serializer= ViewTalentProfileSerializer()
-        if not serializer.is_valid:
-            return Response({'message': 'INVALID DETAILS PROVIDED', 'success': False},
-                            status=HTTP_400_BAD_REQUEST)
-        talent = get_object_or_404(pk=serializer.data['email'])
-        phone_number = talent.phone_number
-        email= talent.email
-        skill = Skill.objects.filter(pk=User.objects.filter(email)).get().proficiency
-        return Response({"skill_level":f"{skill}","talent":f"{phone_number}",})
-
->>>>>>> Abbey
