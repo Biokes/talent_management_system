@@ -29,4 +29,3 @@ class Skill(models.Model):
     PROFICIENCY_LEVEL = [('B', 'BEGINNER'), ('I', 'INTERMEDIATE'), ('A', 'ADVANCED'), ('P', 'PROFESSIONAL')]
     proficiency = models.CharField(max_length=15, choices=PROFICIENCY_LEVEL, default='B')
 
-
