@@ -5,7 +5,15 @@ name = "pypi"
 
 [packages]
 djangorestframework = "*"
+<<<<<<< HEAD
 django = "*"
+=======
+djoser = "*"
+<<<<<<< HEAD
+djangorestframework-simplejwt = "*"
+=======
+>>>>>>> Abbey
+>>>>>>> f13094966280c255b99d98e53091e0d2b4e0d282
 
 [dev-packages]
 

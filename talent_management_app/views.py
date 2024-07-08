@@ -10,35 +10,48 @@ from rest_framework.views import APIView
 from talent_management_app.models import Goal
 from talent_management_app.serializers import CreateGoalSerializer, ManagerGoalListSerializer
 
+from django.shortcuts import render
+from django.views.generic import CreateView
+from rest_framework.response import Response
+from rest_framework.status import HTTP_400_BAD_REQUEST, HTTP_200_OK
+from rest_framework.views import APIView
 
-# Create your views here.
-# def promote_employee(request):
-# def onboard_employee(request):
-# def employee_details(request):
-# def schedule_training(request):
-# def set_goals_for_employee(request):
-# class RegisterTalent(APIView):
-#     @staticmethod
-#     def post(request):
-#         serializer = RegisterTalentSerializer
+from talent_management_app.models import Talent, User, Skill
+
+from talent_management_app.serializers import RegisterTalentSerializer
 
 
 class CreateGoalAPIView(CreateAPIView):
     queryset = Goal.objects.all()
     serializer_class = CreateGoalSerializer
 
-    # def create(self, request,*args,**kwargs):
-    #     serializer = self.serializer_class(data=request.data)
-    #     if serializer.is_valid():
-    #         serializer.save()
-    #         return Response(serializer.data, status=status.HTTP_201_CREATED)
-    #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 
 class ListGoalsAPIView(ListAPIView):
     serializer_class = ManagerGoalListSerializer
 
     def get_queryset(self):
+        serializer = ManagerGoalListSerializer()
+        if not serializer.is_valid():
+            return Response(data={"invalid "}, status=status.HTTP_400_BAD_REQUEST)
+
         manager_id = self.kwargs['manager_id']
         return Goal.objects.filter(manager_id=manager_id)
 
+
+class RegisterTalent(APIView):
+    @staticmethod
+    def post(request):
+        serializer = RegisterTalentSerializer()
+        if not serializer.is_valid:
+            return Response(data={'message': 'INVALID DETAILS PROVIDED', 'success': False},
+                            status=HTTP_400_BAD_REQUEST)
+        email = serializer.data['email']
+        password = serializer.data['password']
+        phone_number = serializer.data['phone_number']
+        user = User.objects.create(email=email, password=password,
+                                   phone_number=phone_number, role='TALENT')
+        talent = Talent.objects.create(user=user)
+        Skill.objects.create(skill_name=serializer.data['skil_name'], proficiency=serializer.data['proficiency'],
+                             talent_id=talent.pk)
+        return Response(data={'messages': 'Registered successfully', 'success': True}
+                        , status=HTTP_200_OK)
