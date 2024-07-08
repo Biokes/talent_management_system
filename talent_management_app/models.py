@@ -23,8 +23,9 @@ class Manager(User):
 
 
 class Talent(User):
-    user_id = models.OneToOneField(User, on_delete=PROTECT, related_name="talent_user")
-
+    user_id= models.OneToOneField(User, on_delete=PROTECT,related_name="talent_user")
+    position = models.CharField(max_length=30)
+    LEVEL = [('ONE', '1'), ('TWO', '2'), ('THREE', '3'), ('FOUR', '4'),('FIVE', '5')]
 
 class Skill(models.Model):
     talent_id = models.OneToOneField(Talent, on_delete=models.CASCADE, related_name="skill_user")
