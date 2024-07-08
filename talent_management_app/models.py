@@ -8,7 +8,7 @@ class User(AbstractUser):
     email = models.EmailField(unique=True)
     password = models.CharField(max_length=15)
     phone_number = models.CharField(max_length=250)
-    ROLE_CHOICES = [('TALENT', 'Talent'), ('EMPLOYER', 'Employer')]
+    ROLE_CHOICES = [('TALENT', 'Talent'), ('EMPLOYER', 'Employer'), ('MANAGER', 'Manager')]
     date_registered = models.DateTimeField(auto_now_add=True)
     role = models.CharField(max_length=50, choices=ROLE_CHOICES, default='EMPLOYER')
 
