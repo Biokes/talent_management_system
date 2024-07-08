@@ -12,8 +12,6 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 
-from talent_management_app import models
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -42,7 +40,6 @@ INSTALLED_APPS = [
     'djoser',
     'rest_framework',
     'talent_management_app',
-    'djoser',
     'rest_framework_simplejwt',
     # 'djangorestframework_simplejwt'
 ]

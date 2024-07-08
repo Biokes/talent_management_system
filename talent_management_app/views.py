@@ -1,14 +1,12 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views.generic import CreateView
+from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.status import HTTP_400_BAD_REQUEST, HTTP_200_OK
 from rest_framework.views import APIView
-
-<<<<<<< HEAD
-=======
 from talent_management_app.models import Talent, User, Skill
->>>>>>> Abbey
-from talent_management_app.serializers import RegisterTalentSerializer
+from talent_management_app.serializers import RegisterTalentSerializer, Promotion
 
 
 # Create your views here.
@@ -19,9 +17,7 @@ from talent_management_app.serializers import RegisterTalentSerializer
 class RegisterTalent(APIView):
     @staticmethod
     def post(request):
-<<<<<<< HEAD
         serializer = RegisterTalentSerializer
-=======
         serializer = RegisterTalentSerializer()
         if not serializer.is_valid:
             return Response(data={'message': 'INVALID DETAILS PROVIDED', 'success': False},
@@ -36,4 +32,25 @@ class RegisterTalent(APIView):
                              talent_id=talent.pk)
         return Response(data={'messages': 'Registered successfully', 'success': True}
                         , status=HTTP_200_OK)
->>>>>>> Abbey
+
+
+class PromoteEmployeeView(APIView):
+    # permission_classes = [IsAuthenticated]
+    serializer_class = Promotion
+
+    def post(self, request):
+        user = request.user
+        serializer = Promotion(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        talent_id = request.data['talent_id']
+        new_position = request.data['new_position']
+        if user.role == 'MANAGER':
+            talent = get_object_or_404(Talent, pk=talent_id)
+            talent.position = new_position
+            current_level_index = [level[0] for level in Talent.LEVEL_CHOICES].index(talent.level)
+            if current_level_index < len(Talent.LEVEL_CHOICES) - 1:
+                # talent.level = Talent.LEVEL_CHOICES[current_level_index + 1][0]
+                Talent.objects.filter(id=talent_id).update(level=Talent.LEVEL_CHOICES[current_level_index + 1][0])
+            return Response({'message': 'promoted'}, status=status.HTTP_200_OK)
+        else:
+            return Response({'message': 'Unauthorized'}, status=status.HTTP_400_BAD_REQUEST)

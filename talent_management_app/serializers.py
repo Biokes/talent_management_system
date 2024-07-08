@@ -6,4 +6,11 @@ from talent_management_app.models import Talent
 class RegisterTalentSerializer(serializers.Serializer):
     class Meta:
         model = Talent
-        fields = ['email','password','phone_number','skill_name','proficiency']
+        fields = ['email', 'password', 'phone_number', 'skill_name', 'proficiency']
+
+
+class Promotion(serializers.Serializer):
+    talent_id = serializers.CharField(max_length=3)
+    old_position = serializers.CharField(max_length=255)
+    new_position = serializers.CharField(max_length=255)
+
